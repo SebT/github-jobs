@@ -1,20 +1,20 @@
-const http = require("http");
-const url = require("url");
+const fastify = require("fastify");
+const axios = require("axios");
+const querystring = require("querystring");
+
+const GITHUB_JOBS_API_URL = "https://jobs.github.com/positions.json";
 
 module.exports = function({ port }) {
-  return http
-    .createServer(async function(request, response) {
-      const pathName = url.parse(request.url).pathname;
-      console.log("GET " + pathName);
+  const app = fastify({ logger: true });
 
-      if (pathName === "/api") {
-        response.write("Hello world");
-      } else {
-        response.writeHead(404, { "Content-type": "text/plain" });
-        response.write("Not Found");
-      }
+  app.get("/api/jobs", async (request, reply) => {
+    const proxiedUrl =
+      GITHUB_JOBS_API_URL + "?" + querystring.stringify(request.query);
+    request.log.info("Calling GET " + proxiedUrl);
 
-      response.end();
-    })
-    .listen(port);
+    const { data: jobs } = await axios.get(proxiedUrl);
+    reply.send(jobs);
+  });
+
+  return app.listen(port);
 };
