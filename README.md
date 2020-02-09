@@ -56,29 +56,17 @@ But since this is a recruitement test and we talked about VueJS during my first 
 Generated with vue-cli.
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### Project setup
+Requirements :
+
+- Node (tested in v12)
+- Yarn (tested with v1.19)
+
+### Run in develoment mode
 
 ```
 yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```
 yarn serve:front
-
-# For backenf use
 yarn serve:back
 ```
 
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Run your unit tests
-
-```
-yarn test:unit
-```
+Go to localhost:8080
