@@ -38,16 +38,16 @@ But since this is a recruitement test and we talked about VueJS during my first 
 - Allow user to save job
 - Add view to show saved jobs
 
-#### Account management
+#### Account management (3-tier app)
 
 - Allow user creating account with email / password
-- Persist save jobs to DB
+- Persist saved jobs to DB
 - Use server instead of localStorage if logged into account
 
 #### Improvements
 
 - Improve UI
-- Show job details as markdown
+- Navigate through jobs via details page
 - Login with external service like github account
 - Handle pagination
 

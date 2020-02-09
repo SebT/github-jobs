@@ -4,9 +4,10 @@
       <div class="item-fluid">
         <dt>Title</dt>
         <dd class="job-list-item__title">
-          <router-link :to="{ name: 'jobDetails', params: { id: job.id } }">{{
-            job.title
-          }}</router-link>
+          <router-link :to="{ name: 'jobDetails', params: { id: job.id } }">
+            {{ job.title }}</router-link
+          >
+          <i v-if="isSaved" class="fas fa-star"></i>
         </dd>
         <div>
           <dt>Company</dt>
@@ -38,6 +39,9 @@ export default {
   },
 
   computed: {
+    isSaved() {
+      return this.$store.state.savedJobIds.indexOf(this.job.id) > -1;
+    },
     formattedCreationDate() {
       return formatDistanceToNow(new Date(this.job.created_at)) + " ago";
     }
@@ -63,9 +67,15 @@ export default {
   }
 }
 
-.job-list-item__title a {
-  font-weight: 600;
-  color: $color-primary;
+.job-list-item__title {
+  a {
+    font-weight: 600;
+    color: $color-primary;
+  }
+
+  .fa-star {
+    margin-left: 0.5rem;
+  }
 }
 .job-list-item__company,
 .job-list-item__type {

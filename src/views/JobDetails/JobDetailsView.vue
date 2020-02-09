@@ -1,12 +1,27 @@
 <template>
   <app-page class="job-details-view">
     <template #header>
-      <button @click="$router.back()">
-        <i class="icon-arrow--left"></i>
-        Go back
-      </button>
+      <div class="clearfix">
+        <button class="btn fl" @click="$router.back()">
+          <i class="icon-arrow--left"></i>
+          Go back
+        </button>
+        <button
+          v-if="job"
+          class="fr btn"
+          @click="isSaved ? unsaveJob(job.id) : saveJob(job.id)"
+        >
+          <template v-if="isSaved">
+            <i class="fas fa-star"></i>
+            Unsave job
+          </template>
+          <template v-else>
+            <i class="far fa-star"></i>
+            Save job
+          </template>
+        </button>
+      </div>
     </template>
-
     <div v-if="error" class="alert--danger">
       Could not load job.
     </div>
@@ -18,6 +33,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AppPage from "@/components/AppPage";
 import Loader from "@/components/Loader";
 import JobDetails from "./JobDetails";
@@ -55,6 +71,14 @@ export default {
           console.error("Could not fetch job", error);
           this.error = error;
         });
+    }
+  },
+
+  methods: mapActions(["saveJob", "unsaveJob"]),
+
+  computed: {
+    isSaved() {
+      return this.$store.state.savedJobIds.indexOf(this.job.id) > -1;
     }
   }
 };

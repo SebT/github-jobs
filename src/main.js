@@ -10,3 +10,9 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount("#app");
+
+try {
+  store.dispatch("initSavedJobs");
+} catch (error) {
+  console.error("Could not init saved jobs", error);
+}
