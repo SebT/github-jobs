@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import JobList from "../views/JobList";
 import JobDetails from "../views/JobDetails";
+import JobSavedList from "../views/JobSavedList";
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,11 @@ const routes = [
     path: "/jobs",
     name: "jobList",
     component: JobList
+  },
+  {
+    path: "/jobs/saved",
+    name: "savedJobs",
+    component: JobSavedList
   },
   {
     path: "/jobs/:id",

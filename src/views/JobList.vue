@@ -1,23 +1,33 @@
 <template>
   <app-page class="job-list-view">
     <template #header>
-      <form class="job-list-view__form" @submit.prevent="handleFormSubmit">
-        <label class="job-list-view__form-label">
-          <span>Search by location :</span>
-          <input
-            v-model="location"
-            class="job-list-view__form-input"
-            placeholder="Job location"
-          />
-        </label>
-        <button
-          :disabled="isFetching || !location"
-          class="btn--primary job-list-view__form-button"
-          type="submit"
+      <div class="flex-container">
+        <form
+          class="job-list-view__form item-fluid"
+          @submit.prevent="handleFormSubmit"
         >
-          <i class="fas fa-search-location"></i>
-        </button>
-      </form>
+          <label class="job-list-view__form-label">
+            <span>Search by location :</span>
+            <input
+              v-model="location"
+              class="job-list-view__form-input"
+              placeholder="Job location"
+            />
+          </label>
+          <button
+            :disabled="isFetching || !location"
+            class="btn--primary job-list-view__form-button"
+            type="submit"
+          >
+            <i class="fas fa-search-location"></i>
+          </button>
+        </form>
+
+        <router-link class="btn" :to="{ name: 'savedJobs' }">
+          <i class="fas fa-star"></i>
+          See saved jobs
+        </router-link>
+      </div>
     </template>
 
     <section class="job-list-view__main">
@@ -37,11 +47,11 @@
       <template v-else>
         <div
           v-if="$store.state.searchedLocation"
-          class="job-list-view__no-result"
+          class="job-list-view__no-result block--placeholder"
         >
           No jobs found in <em>{{ $store.state.searchedLocation }}</em>
         </div>
-        <div v-else class="job-list-view__placeholder">
+        <div v-else class="job-list-view__placeholder block--placeholder">
           Please, input a location to search for jobs.
         </div>
       </template>
@@ -52,7 +62,7 @@
 <script>
 import AppPage from "@/components/AppPage";
 import Loader from "@/components/Loader";
-import JobList from "./JobList";
+import JobList from "@/components/JobList";
 
 export default {
   components: {
@@ -137,13 +147,5 @@ export default {
 .job-list-view__loader {
   text-align: center;
   padding: 5rem;
-}
-
-.job-list-view__placeholder,
-.job-list-view__no-result {
-  padding: 2rem 0;
-  text-align: center;
-  font-size: 1.3em;
-  font-weight: 300;
 }
 </style>

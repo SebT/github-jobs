@@ -15,4 +15,11 @@ body {
 .fa-star {
   color: $color-star;
 }
+
+.block--placeholder {
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: 300;
+}
 </style>

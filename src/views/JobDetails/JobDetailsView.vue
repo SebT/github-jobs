@@ -2,10 +2,7 @@
   <app-page class="job-details-view">
     <template #header>
       <div class="clearfix">
-        <button class="btn fl" @click="$router.back()">
-          <i class="icon-arrow--left"></i>
-          Go back
-        </button>
+        <back-button class="fl" />
         <button
           v-if="job"
           class="fr btn"
@@ -36,12 +33,14 @@
 import { mapActions } from "vuex";
 import AppPage from "@/components/AppPage";
 import Loader from "@/components/Loader";
+import BackButton from "@/components/BackButton";
 import JobDetails from "./JobDetails";
 
 export default {
   components: {
     AppPage,
     Loader,
+    BackButton,
     JobDetails
   },
 
