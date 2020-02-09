@@ -29,15 +29,27 @@
         An error happened.
       </div>
 
-      <div v-else-if="noJobsFound" class="alert--info">No jobs found</div>
+      <job-list
+        v-else-if="$store.state.jobs.length"
+        :jobs="$store.state.jobs"
+      ></job-list>
 
-      <job-list v-else :jobs="jobs"></job-list>
+      <template v-else>
+        <div
+          v-if="$store.state.searchedLocation"
+          class="job-list-view__no-result"
+        >
+          No jobs found in <em>{{ $store.state.searchedLocation }}</em>
+        </div>
+        <div v-else class="job-list-view__placeholder">
+          Please, input a location to search for jobs.
+        </div>
+      </template>
     </section>
   </app-page>
 </template>
 
 <script>
-import { mapState } from "vuex";
 import AppPage from "@/components/AppPage";
 import Loader from "@/components/Loader";
 import JobList from "./JobList";
@@ -51,23 +63,16 @@ export default {
 
   data() {
     return {
-      location: this.$route.query.location,
+      location: this.$store.state.searchedLocation || "",
       isFetching: false,
       error: null
     };
   },
 
-  computed: {
-    ...mapState(["jobs"]),
-    noJobsFound() {
-      const hasSearch = this.location && !this.jobs.length;
-      return hasSearch && !this.isFetching;
-    }
-  },
-
   created() {
     // Search jobs on page load if a location is present in the query string
-    if (this.location) {
+    if (this.$route.query.location) {
+      this.location = this.$route.query.location;
       this.searchJobs();
     }
   },
@@ -84,6 +89,10 @@ export default {
     },
 
     searchJobs() {
+      if (this.location === this.$store.state.searchedLocation) {
+        return;
+      }
+
       this.isFetching = true;
       this.error = null;
 
@@ -128,5 +137,13 @@ export default {
 .job-list-view__loader {
   text-align: center;
   padding: 5rem;
+}
+
+.job-list-view__placeholder,
+.job-list-view__no-result {
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: 300;
 }
 </style>

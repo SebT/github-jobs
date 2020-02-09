@@ -8,11 +8,15 @@ const SAVED_JOBS_KEY = "savedJobIds";
 
 export default new Vuex.Store({
   state: {
+    searchedLocation: null,
     jobs: [],
     savedJobIds: []
   },
 
   mutations: {
+    setSeachedLocation(state, location) {
+      state.searchedLocation = location;
+    },
     setJobs(state, jobs) {
       state.jobs = jobs;
     },
@@ -34,6 +38,7 @@ export default new Vuex.Store({
 
   actions: {
     searchJobs(store, location) {
+      store.commit("setSeachedLocation", location);
       store.commit("setJobs", []);
 
       return axios
