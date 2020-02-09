@@ -1,21 +1,30 @@
 <template>
-  <div class="job-details-view">
-    <div v-if="error">
-      Could not load job
+  <app-page class="job-details-view">
+    <template #header>
+      <button @click="$router.back()">
+        <i class="icon-arrow--left"></i>
+        Go back
+      </button>
+    </template>
+
+    <div v-if="error" class="alert--danger">
+      Could not load job.
     </div>
 
     <loader v-else-if="!job"></loader>
 
     <job-details v-else :job="job"></job-details>
-  </div>
+  </app-page>
 </template>
 
 <script>
+import AppPage from "@/components/AppPage";
 import Loader from "@/components/Loader";
 import JobDetails from "./JobDetails";
 
 export default {
   components: {
+    AppPage,
     Loader,
     JobDetails
   },

@@ -1,7 +1,7 @@
 <template>
-  <div class="job-list">
+  <ul class="job-list">
     <job-list-item v-for="job in jobs" :key="job.id" :job="job"></job-list-item>
-  </div>
+  </ul>
 </template>
 
 <script>
@@ -20,3 +20,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.job-list {
+  padding: 0;
+  margin: 0;
+}
+</style>

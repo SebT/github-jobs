@@ -2,7 +2,9 @@
   <div class="loader"></div>
 </template>
 
-<style>
+<style lang="scss">
+@import "~knacss/sass/_config/_variables.scss";
+
 .loader {
   display: inline-block;
   width: 80px;
@@ -15,8 +17,8 @@
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  border: 6px solid #333;
-  border-color: #333 transparent #333 transparent;
+  border: 6px solid $gray-800;
+  border-color: $gray-800 transparent $gray-800 transparent;
   animation: rotate 1.5s linear infinite;
 }
 
