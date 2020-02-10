@@ -1,6 +1,4 @@
 const fastify = require("fastify");
-const fastifyStatic = require("fastify-static");
-const path = require("path");
 const githubApi = require("./github-api");
 
 function setupGithubJobsProxy(app) {
@@ -33,23 +31,15 @@ function setupGithubJobsProxy(app) {
   });
 }
 
-function setupStaticFilesServer(app) {
-  app.register(fastifyStatic, { root: path.join(__dirname, "../dist") });
-}
-
-function setupCorsInDevelopmentMode(app) {
-  if (process.env.NODE_ENV === "development") {
-    app.log.info("Enabling CORS in development mode");
-    app.register(require("fastify-cors"));
-  }
+function setupCors(app) {
+  app.register(require("fastify-cors"));
 }
 
 module.exports = function({ port }) {
   const app = fastify({ logger: true });
 
-  setupCorsInDevelopmentMode(app);
+  setupCors(app);
   setupGithubJobsProxy(app);
-  setupStaticFilesServer(app);
 
   return app.listen(port);
 };

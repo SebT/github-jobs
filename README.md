@@ -63,10 +63,22 @@ Requirements :
 
 ### Run in develoment mode
 
+**Back :**
+
 ```
+cd server
 yarn install
-yarn serve:front
-yarn serve:back
+yarn serve
+```
+
+Default used port is 9000
+
+**Front :**
+
+```
+cd client
+yarn install
+yarn serve
 ```
 
 Go to localhost:8080
