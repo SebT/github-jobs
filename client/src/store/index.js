@@ -42,9 +42,7 @@ export default new Vuex.Store({
       store.commit("setJobs", []);
 
       return axios
-        .get("/api/jobs?location=" + location, {
-          withCredentials: true
-        })
+        .get(makeApiUrl("/api/jobs?location=" + location))
         .then(({ data }) => {
           store.commit("setJobs", data);
           return data;
@@ -52,7 +50,7 @@ export default new Vuex.Store({
     },
 
     fetchJob(store, id) {
-      return axios.get("/api/jobs/" + id).then(({ data }) => data);
+      return axios.get(makeApiUrl("/api/jobs/" + id)).then(({ data }) => data);
     },
 
     saveJob(store, id) {
@@ -76,4 +74,11 @@ export default new Vuex.Store({
 
 function persistSavedJobs(jobIds) {
   localStorage.setItem(SAVED_JOBS_KEY, JSON.stringify(jobIds));
+}
+
+function makeApiUrl(path) {
+  if (process.env.NODE_ENV === "development") {
+    return path;
+  }
+  return "https://salty-falls-55887.herokuapp.com" + path;
 }

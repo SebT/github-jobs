@@ -19,13 +19,24 @@
         </button>
       </div>
     </template>
-    <div v-if="error" class="alert--danger">
+    <div
+      v-if="error"
+      class="alert--danger"
+    >
       Could not load job.
     </div>
 
-    <loader v-else-if="!job"></loader>
+    <div
+      v-else-if="!job"
+      class="txtcenter"
+    >
+      <loader />
+    </div>
 
-    <job-details v-else :job="job"></job-details>
+    <job-details
+      v-else
+      :job="job"
+    ></job-details>
   </app-page>
 </template>
 
