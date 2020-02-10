@@ -41,5 +41,5 @@ module.exports = function({ port }) {
   setupCors(app);
   setupGithubJobsProxy(app);
 
-  return app.listen(port);
+  return app.listen(port, "0.0.0.0");
 };
