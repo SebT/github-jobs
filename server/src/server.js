@@ -1,45 +1,47 @@
-const fastify = require("fastify");
+const express = require("express");
+const cors = require("cors");
 const githubApi = require("./github-api");
 
 function setupGithubJobsProxy(app) {
-  app.get("/api/jobs", async (request, reply) => {
-    const location = request.query.location;
+  app.get("/api/jobs", async (req, res) => {
+    const location = req.query.location;
     if (!location) {
       const error = new Error("location query parameter is required");
       error.statusCode = 400;
       error.code = "LOCATION_REQUIRED";
-      reply.send(error);
+      res.send(error);
       return;
     }
 
     const jobs = await githubApi.searchJobs(location);
-    reply.send(jobs);
+    res.send(jobs);
   });
 
-  app.get("/api/jobs/:id", async (request, reply) => {
-    const id = request.params.id;
+  app.get("/api/jobs/:id", async (req, res) => {
+    const id = req.params.id;
     if (!id) {
-      const error = new Error("id parameter is required");
-      error.statusCode = 400;
-      error.code = "ID_REQUIRED";
-      reply.send(error);
+      res.status(400).send(new Error("id parameter is required"));
       return;
     }
 
-    const job = await githubApi.fetchJob(id);
-    reply.send(job);
+    githubApi
+      .fetchJob(id)
+      .then(job => {
+        res.send(job);
+      })
+      .catch(err => res.status(500).send(err));
   });
 }
 
 function setupCors(app) {
-  app.register(require("fastify-cors"));
+  app.use(cors({ origin: true }));
 }
 
 module.exports = function({ port }) {
-  const app = fastify({ logger: true });
+  const app = express();
 
   setupCors(app);
   setupGithubJobsProxy(app);
 
-  return app.listen(port, "0.0.0.0");
+  return Promise.resolve(app.listen(port));
 };
